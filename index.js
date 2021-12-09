@@ -4,6 +4,7 @@ const numberOfSphere = document.querySelector("#number-sphere");
 const flourBag = document.querySelector("#flour-amount");
 const velocity = 0.025;
 const flourAlert = document.querySelector('#flour-alert')
+const tray = document.querySelector('.tray')
 // Preparing application state
 let isForming = false;
 let formingProgress = 0;
@@ -25,11 +26,32 @@ function update() {
     doughmakerButton.textContent = "Zatrzymaj lepienie";
   }
   if (formingProgress >= 100) {
+    const plate = document.createElement("div");
+    plate.classList.add('plate');
+    tray.append(plate);
+
+    const yellowBall = document.createElement("div");
+    yellowBall.classList.add('yellow-dough');
+    plate.append(yellowBall);
+
     formingProgress = 0;
     sphereNumber++;
     numberOfSphere.textContent = sphereNumber;
     flourBag.textContent = flourAmount -= 10;
-    if (flourAmount === 80) {
+    
+    yellowBall.addEventListener('click', doughClick) 
+
+
+function doughClick () {
+  yellowBall.style.backgroundColor = "black";
+  yellowBall.style.width = `${width} - ${22.5} + px`;
+  console.log("click");
+  // yellowBall.style.height = `${height} - 2.5px}`;
+}
+
+  // tray.append(`<div class="yellow-dough"></div>`);
+
+    if (flourAmount === 10) {
       flourAlert.textContent = "Za mało mąki!!!";
       return;
     }
@@ -47,3 +69,4 @@ doughmakerButton.addEventListener("click", function () {
   isForming = !isForming;
   doughmakerButton.textContent = "Lep to ciacho ziom";
 });
+
