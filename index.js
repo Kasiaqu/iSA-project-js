@@ -1,88 +1,42 @@
-// var doughmaker = document.querySelector('#dough-maker');
-// var i = 0;
-// let numberOfSpheres = document.querySelector('#number-sphere');
-// let numberOfClicks = 0;
-// function move() {
-//   if (i === 0) {
-//     i = 1;
-//     var greenBar = document.querySelector('#green-bar');
+const progressBar = document.querySelector("#progress");
+const doughmakerButton = document.querySelector("#doughmaker");
+const numberOfSphere = document.querySelector("#number-sphere");
+const velocity = 0.025;
 
-//     var width = 0;
-//     var id = setInterval(frame, 40);
-//     function frame() {
-//         doughmaker.textContent = "Ulep ciasto";
-//         greenBar.style.width = "0";
-//       if (width >= 100) {
-//         clearInterval(id);
-//         i = 0;
-//         numberOfClicks += 1;
-//         numberOfSpheres.textContent = "Liczba ulepionych ciastowych kul: " + numberOfClicks;
-        
-//       } else {
-//         width++;
-//         greenBar.style.width = width + "%";
-//         doughmaker.textContent = "Zatrzymaj lepienie";
-//       }      
-//     }
-//   }
-//   else{
-    
-//   }
-
-// }
-
-
-
-
-
-
-// Finding document elements
-let doughMaker = document.querySelector('#dough-maker');
-let greenBar = document.querySelector('#green-bar');
-let numberOfSpheres = document.querySelector('#number-sphere');
 // Preparing application state
-let numberOfClicks = 0;
-// let greenBar = 0;
-let clickOn = false;
-
-// let velocity = 0.0001;
-// let acceleration = 0.0009;
-
+let isForming = false;
+let formingProgress = 0;
+let lastUpdateTime = Date.now();
+let number = 0;
 
 // Update screen
-function move() {
-  if (clickOn === true) {
+function update() {
+  const now = Date.now();
+  const elapsedTime = now - lastUpdateTime;
+  lastUpdateTime = now;
+
+  if (isForming === true) {
     // Update distance only if acceleration is on
-    // velocity += acceleration * elapsedTime;
-    // distance += velocity * elapsedTime;
-    // car.style.left = distance + "px";
-    // width++;
-    greenBar.style.width = "100px";
-    if (width >= 100) {
-                clearInterval(id);
-                numberOfClicks += 1;
-                numberOfSpheres.textContent = "Liczba ulepionych ciastowych kul: " + numberOfClicks;
-                
-              } else {
-                width++;
-                greenBar.style.width = width + "%";
-                doughmaker.textContent = "Zatrzymaj lepienie";
-              }      
+
+    formingProgress += velocity * elapsedTime;
+    progressBar.style.width = formingProgress + "%";
+    doughmakerButton.textContent = "Zatrzymaj lepienie";
   }
-//   greenBar.style.width = "100px";
+  if (formingProgress >= 100) {
+    formingProgress = 0;
+    number++;
+    numberOfSphere.textContent = number;
+  }
   // Automatically schedule next update call when the browser
   // is ready to update the screen (every ~16ms = 60FPS (Frames Per Second))
-  requestAnimationFrame(move);
+  requestAnimationFrame(update);
 }
 
 // Starting sceen updates
-move();
+update();
 
 // Adding event listeners
-doughMaker.addEventListener("click", function () {
-  clickOn = true;
+doughmakerButton.addEventListener("click", function () {
+  isForming = !isForming;
+  doughmakerButton.textContent = "Lep to ciacho ziom";
 });
-// doughMaker.addEventListener("click", function () {
-//   clickOn = false;
-// });
-

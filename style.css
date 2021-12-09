@@ -1,13 +1,10 @@
-.dough-process {
-    width: 100px;
-    height: 10px;
-    background-color: rgb(243, 236, 236);
-    margin-top: 30px;
-    margin-bottom: 20px;
-    border: 1px solid black;
-}
-.green-bar{
-    width: 0;
-    height: 10px;
+#progress {
+    height: 20px;
     background-color: green;
+    width: 0;
 }
+  
+#bar {
+    width: 100px;
+    background: rgb(187, 196, 204);
+  }
