@@ -1,13 +1,15 @@
 const progressBar = document.querySelector("#progress");
 const doughmakerButton = document.querySelector("#doughmaker");
 const numberOfSphere = document.querySelector("#number-sphere");
+const flourBag = document.querySelector("#flour-amount");
 const velocity = 0.025;
-
+const flourAlert = document.querySelector('#flour-alert')
 // Preparing application state
 let isForming = false;
 let formingProgress = 0;
 let lastUpdateTime = Date.now();
-let number = 0;
+let sphereNumber = 0;
+let flourAmount = 100;
 
 // Update screen
 function update() {
@@ -24,8 +26,13 @@ function update() {
   }
   if (formingProgress >= 100) {
     formingProgress = 0;
-    number++;
-    numberOfSphere.textContent = number;
+    sphereNumber++;
+    numberOfSphere.textContent = sphereNumber;
+    flourBag.textContent = flourAmount -= 10;
+    if (flourAmount === 80) {
+      flourAlert.textContent = "Za mało mąki!!!";
+      return;
+    }
   }
   // Automatically schedule next update call when the browser
   // is ready to update the screen (every ~16ms = 60FPS (Frames Per Second))
