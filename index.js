@@ -5,12 +5,15 @@ const flourBag = document.querySelector("#flour-amount");
 const velocity = 0.025;
 const flourAlert = document.querySelector('#flour-alert')
 const tray = document.querySelector('.tray')
+const numberOfCookie = document.querySelector('#number-cookie')
 // Preparing application state
 let isForming = false;
 let formingProgress = 0;
 let lastUpdateTime = Date.now();
 let sphereNumber = 0;
+let cookieNumber = 0;
 let flourAmount = 100;
+
 
 // Update screen
 function update() {
@@ -25,6 +28,9 @@ function update() {
     progressBar.style.width = formingProgress + "%";
     doughmakerButton.textContent = "Zatrzymaj lepienie";
   }
+
+  
+
   if (formingProgress >= 100) {
     const plate = document.createElement("div");
     plate.classList.add('plate');
@@ -39,17 +45,29 @@ function update() {
     numberOfSphere.textContent = sphereNumber;
     flourBag.textContent = flourAmount -= 10;
     
-    yellowBall.addEventListener('click', doughClick) 
 
+    yellowBall.addEventListener('click', doughClick);
 
-function doughClick () {
-  yellowBall.style.backgroundColor = "black";
-  yellowBall.style.width = `${width} - ${22.5} + px`;
-  console.log("click");
-  // yellowBall.style.height = `${height} - 2.5px}`;
-}
+    let currentWidth = 50;
+    let currentHeight = 50;
 
-  // tray.append(`<div class="yellow-dough"></div>`);
+    function doughClick () {
+      
+      currentWidth -= 5;
+      yellowBall.style.width = currentWidth + "px";
+      currentHeight -= 5;
+      yellowBall.style.height = currentHeight + "px";
+      cookieNumber++;
+      numberOfCookie.textContent = cookieNumber;  
+
+      if (currentWidth == 0) {
+        plate.remove();
+        sphereNumber--;
+        numberOfSphere.textContent = sphereNumber;
+        return;
+      }
+  
+    }
 
     if (flourAmount === 10) {
       flourAlert.textContent = "Za mało mąki!!!";
