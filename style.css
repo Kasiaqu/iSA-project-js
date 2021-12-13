@@ -37,3 +37,31 @@
 #cookie-alert, #full-oven-alert {
     color: red;
 }
+.oven {
+    display: grid;
+    width: 300px;
+    height: 300px;
+    grid-template-areas: 
+    "a a a"
+    "a a a"
+    "a a a";
+    border: 1px solid black;
+}
+
+.cookie{
+    background-color: wheat;
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    justify-self: center;
+    align-self: center;
+}  
+.cookie-orange{
+    background-color: orange;
+}
+.cookie-brown{
+    background-color: brown;
+}
+.cookie-black{
+    background-color: black;
+}
