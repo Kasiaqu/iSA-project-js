@@ -34,3 +34,6 @@
     align-items: center;
 
 }
+#cookie-alert, #full-oven-alert {
+    color: red;
+}

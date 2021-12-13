@@ -8,6 +8,10 @@ const tray = document.querySelector('.tray');
 const numberOfCookie = document.querySelector('#number-cookie');
 const bakeClick = document.querySelector('#bakeclick');
 const numberOfCookieOnTray = document.querySelector('#number-cookie-on-tray');
+const cookieAlert = document.querySelector('#cookie-alert')
+const fullOvenAlert = document.querySelector("#full-oven-alert")
+
+
 // Preparing application state
 let isForming = false;
 let formingProgress = 0;
@@ -56,6 +60,7 @@ function update() {
       cookieNumber++;
       numberOfCookie.textContent = cookieNumber;  
       console.log("cookie Number" + cookieNumber);
+      cookieAlert.textContent = "";
       if (currentWidth == 0) {
         plate.remove();
         sphereNumber--;
@@ -84,20 +89,28 @@ doughmakerButton.addEventListener("click", function () {
 });
 
 bakeClick.addEventListener("click", function () {
-  if( cookieNumber > 0) { 
+  if( cookieNumber > 0 && cookieOnTrayNumber < 9) { 
   console.log("cookie Number" + cookieNumber); 
   cookieOnTrayNumber++;
   cookieNumber--;
-  
-  if (cookieOnTrayNumber > 9 || cookieNumber < 0){
-    return;
-  }
+
   numberOfCookie.textContent = cookieNumber;
   
   console.log("cookie On Tray Number" + cookieOnTrayNumber);
   numberOfCookieOnTray.textContent = cookieOnTrayNumber; 
-  
+
 }
+
+if (cookieNumber < 1) {
+  cookieAlert.textContent = "Robiliśmy co w naszej mocy, ale mamy za mało ciastek";
+  return;
+}
+
+if (cookieOnTrayNumber >= 9 ){
+  fullOvenAlert.textContent = "Piec jest pełen";
+  return;
+}
+
 
 })
 
