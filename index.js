@@ -11,6 +11,7 @@ const numberOfCookieOnTray = document.querySelector('#number-cookie-on-tray');
 const cookieAlert = document.querySelector('#cookie-alert')
 const fullOvenAlert = document.querySelector("#full-oven-alert")
 const oven = document.querySelector("#oven");
+const numberOfBakedCookies = document.querySelector("#number-of-baked-cookies");
 
 
 // Preparing application state
@@ -27,19 +28,21 @@ function update() {
   const elapsedTime = now - lastUpdateTime;
   lastUpdateTime = now;
 
-  if (isForming === true) {
+  if (isForming) {
     // Update distance only if acceleration is on
+    if (formingProgress === 0) {
+      if (flourAmount === 0) {
+        flourAlert.textContent = "Za mało mąki!!!";
+        return;
+      }
+      flourBag.textContent = flourAmount -= 10;
+    }
     formingProgress += velocity * elapsedTime;
     progressBar.style.width = formingProgress + "%";
     doughmakerButton.textContent = "Zatrzymaj lepienie";
   }
   if (formingProgress >= 100) {
-  
     createDoughBall();
-    if (flourAmount === 0) {
-      flourAlert.textContent = "Za mało mąki!!!";
-      return;
-    }
   }
   // Automatically schedule next update call when the browser
   // is ready to update the screen (every ~16ms = 60FPS (Frames Per Second))
@@ -61,7 +64,7 @@ plate.append(yellowBall);
 formingProgress = 0;
 sphereNumber++;
 numberOfSphere.textContent = sphereNumber;
-flourBag.textContent = flourAmount -= 10;
+// flourBag.textContent = flourAmount -= 10;
 
 plate.addEventListener('click', doughClick);
 
@@ -92,6 +95,10 @@ doughmakerButton.addEventListener("click", function () {
 });
 
 bakeClick.addEventListener("click", function () {
+  if (cookieOnTrayNumber === 9 ) {
+    fullOvenAlert.textContent = "Piec jest pełen";
+    return;
+  }
   if( cookieNumber > 0 && cookieOnTrayNumber < 9) { 
   console.log("cookie Number" + cookieNumber); 
   cookieOnTrayNumber++;
@@ -114,10 +121,12 @@ bakeClick.addEventListener("click", function () {
     let currentTime = Date.now();
     let durration = currentTime - bakingStartTime 
     if (durration > 3000){
-      cookie.classList.add('cookie-orange');
+      // cookie.classList.remove('cookie')
+      cookie.classList.add('cookie-orange'); 
     }
     if (durration > 6000){
-      cookie.classList.add('cookie-brown');
+      cookie.className = "cookie-brown"
+      // cookie.classList.add('cookie-brown');
     }
     if (durration > 9000){
       cookie.classList.add('cookie-black');
@@ -130,26 +139,29 @@ bakeClick.addEventListener("click", function () {
       numberOfCookieOnTray.textContent = cookieOnTrayNumber;
     }
     }, 500)
-    cookie.addEventListener('click', () => {
-      clearInterval(id);
-      cookie.parentElement.removeChild(cookie);
-      cookieOnTrayNumber--;
-      numberOfCookieOnTray.textContent = cookieOnTrayNumber;
-      fullOvenAlert.textContent = "";
-    })
+    cookie.addEventListener('click', takingOut);
+    
+    function takingOut () {
+      console.log(cookie.classList.value);
+
+      if (cookie.className === "cookie-brown") {
+      // clearInterval(id);
+      // cookie.parentElement.removeChild(cookie);
+      // cookieOnTrayNumber--;
+      // numberOfCookieOnTray.textContent = cookieOnTrayNumber;
+      // fullOvenAlert.textContent = "";
+      // cookie.style.border = "2px solid black";
+      console.log("przycisk na ciasto")
+
+    }
   }
-   
+}
   letsBake();
 
   }
 
   if (cookieNumber < 1) {
     cookieAlert.textContent = "Robiliśmy co w naszej mocy, ale mamy za mało ciastek";
-    return;
-  }
-
-  if (cookieOnTrayNumber >= 9 ) {
-    fullOvenAlert.textContent = "Piec jest pełen";
     return;
   }
 

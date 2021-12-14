@@ -48,7 +48,7 @@
     border: 1px solid black;
 }
 
-.cookie{
+div[class*="cookie"]{
     background-color: wheat;
     width: 20px;
     height: 20px;
