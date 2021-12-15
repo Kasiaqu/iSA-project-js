@@ -3,16 +3,16 @@ const doughmakerButton = document.querySelector("#doughmaker");
 const numberOfSphere = document.querySelector("#number-sphere");
 const flourBag = document.querySelector("#flour-amount");
 const velocity = 0.1;
-const flourAlert = document.querySelector('#flour-alert');
-const tray = document.querySelector('#tray');
-const numberOfCookie = document.querySelector('#number-cookie');
-const bakeClick = document.querySelector('#bakeclick');
-const numberOfCookieOnTray = document.querySelector('#number-cookie-on-tray');
-const cookieAlert = document.querySelector('#cookie-alert')
-const fullOvenAlert = document.querySelector("#full-oven-alert")
+const flourAlert = document.querySelector("#flour-alert");
+const tray = document.querySelector("#tray");
+const numberOfCookie = document.querySelector("#number-cookie");
+const bakeClick = document.querySelector("#bakeclick");
+const numberOfCookieOnTray = document.querySelector("#number-cookie-on-tray");
+const cookieAlert = document.querySelector("#cookie-alert");
+const fullOvenAlert = document.querySelector("#full-oven-alert");
 const oven = document.querySelector("#oven");
 const numberOfBakedCookies = document.querySelector("#number-of-baked-cookies");
-const numberSoldCookies = document.querySelector('#number-sold-cookies');
+const earnedMoney = document.querySelector("#earned-money");
 
 // Preparing application state
 let isForming = false;
@@ -22,8 +22,9 @@ let sphereNumber = 0;
 let cookieNumber = 0;
 let flourAmount = 100;
 let cookieOnTrayNumber = 0;
-let bakedCookies = 0;
-let soldCookies = 0;
+let bakedCookies = 20;
+let currentSale = 0;
+let totalEarnedMoney = 0;
 
 // Update screen
 function update() {
@@ -57,11 +58,11 @@ update();
 
 function createDoughBall() {
   const plate = document.createElement("div");
-  plate.classList.add('plate');
+  plate.classList.add("plate");
   tray.append(plate);
 
   const yellowBall = document.createElement("div");
-  yellowBall.classList.add('yellow-dough');
+  yellowBall.classList.add("yellow-dough");
   plate.append(yellowBall);
 
   formingProgress = 0;
@@ -69,13 +70,12 @@ function createDoughBall() {
   numberOfSphere.textContent = sphereNumber;
   // flourBag.textContent = flourAmount -= 10;
 
-  plate.addEventListener('click', doughClick);
+  plate.addEventListener("click", doughClick);
 
   let currentWidth = 50;
   let currentHeight = 50;
 
   function doughClick() {
-
     currentWidth -= 5;
     yellowBall.style.width = currentWidth + "px";
     currentHeight -= 5;
@@ -113,17 +113,15 @@ bakeClick.addEventListener("click", function () {
     console.log("cookie On Tray Number" + cookieOnTrayNumber);
     numberOfCookieOnTray.textContent = cookieOnTrayNumber;
 
-
-
     function letsBake() {
       const cookie = document.createElement("div");
-      cookie.classList.add('cookie');
+      cookie.classList.add("cookie");
       oven.append(cookie);
 
       const bakingStartTime = Date.now();
       const id = setInterval(() => {
         let currentTime = Date.now();
-        let durration = currentTime - bakingStartTime
+        let durration = currentTime - bakingStartTime;
         if (durration > 3000) {
           cookie.style.backgroundColor = "orange";
         }
@@ -140,8 +138,8 @@ bakeClick.addEventListener("click", function () {
           cookieOnTrayNumber--;
           numberOfCookieOnTray.textContent = cookieOnTrayNumber;
         }
-      }, 500)
-      cookie.addEventListener('click', takingOut);
+      }, 500);
+      cookie.addEventListener("click", takingOut);
 
       function takingOut() {
         console.log(cookie.classList.value);
@@ -166,44 +164,46 @@ bakeClick.addEventListener("click", function () {
       }
     }
     letsBake();
-
   }
 
   if (cookieNumber < 1) {
-    cookieAlert.textContent = "Robiliśmy co w naszej mocy, ale mamy za mało ciastek";
+    cookieAlert.textContent =
+      "Robiliśmy co w naszej mocy, ale mamy za mało ciastek";
     return;
   }
-
-})
-
+});
 
 
+function setCookieSellingTimeout() {
+  const randomTime = Math.floor(Math.random() * (6000 - 3000)) + 3000;
+  setTimeout(increaseCookies, randomTime);
 
-// let randomTime = 3000;
-
-  setInterval(increaseCookies, Math.floor(Math.random() * (6000 - 3000)) + 3000);
-  
   function increaseCookies() {
-    console.log(Math.floor(Math.random() * (6000 - 3000)) + 3000);
-    // randomTime =  Math.floor(Math.random() * (6000 - 3000)) + 3000;
-    // console.log(randomTime)
-    if (numberOfBakedCookies > 0 ) {
-      
-    let randomAmount = Math.floor(Math.random() * (10 - 1)) + 1;
-    console.log(randomAmount);
-    bakedCookies -= randomAmount;
-    numberOfBakedCookies.textContent = bakedCookies;
-    
-  } 
-// else {
-// // //  numberOfBakedCookies.textContent = "za mało ciastek";
-//   }
+    if (bakedCookies > 0) {
+      console.log(Math.floor(Math.random() * (6000 - 3000)) + 3000);
+
+      let randomAmount = Math.floor(Math.random() * (10 - 1)) + 1;
+      let cookiesSold = Math.min(randomAmount, bakedCookies);
+
+      bakedCookies = Math.max(bakedCookies - randomAmount, 0);
+      numberOfBakedCookies.textContent = bakedCookies;
+      console.log("zabralem ciastko");
+
+      if (cookiesSold > 5) {
+        currentSale = cookiesSold * 4;
+        totalEarnedMoney = totalEarnedMoney + currentSale
+        earnedMoney.textContent = totalEarnedMoney;
+        console.log(`wiecej niz 5 ->  ${cookiesSold}`);
+      } else {
+        currentSale = cookiesSold * 5;
+        totalEarnedMoney = totalEarnedMoney + currentSale
+        earnedMoney.textContent = totalEarnedMoney;
+        console.log(`mniej niz 5 ->  ${cookiesSold}`);
+      }
+    }
+    setCookieSellingTimeout();
+  }
 }
 
+setCookieSellingTimeout();
 
-
-
-// function sellCookies() {
-  
-// }
-// sellCookies();
