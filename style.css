@@ -56,12 +56,3 @@ div[class*="cookie"]{
     justify-self: center;
     align-self: center;
 }  
-.cookie-orange{
-    background-color: orange;
-}
-.cookie-brown{
-    background-color: brown;
-}
-.cookie-black{
-    background-color: black;
-}

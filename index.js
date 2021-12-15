@@ -22,6 +22,8 @@ let sphereNumber = 0;
 let cookieNumber = 0;
 let flourAmount = 100;
 let cookieOnTrayNumber = 0;
+let bakedCookies = 0;
+
 // Update screen
 function update() {
   const now = Date.now();
@@ -120,16 +122,14 @@ bakeClick.addEventListener("click", function () {
     const id = setInterval(() => { 
     let currentTime = Date.now();
     let durration = currentTime - bakingStartTime 
-    if (durration > 3000){
-      // cookie.classList.remove('cookie')
-      cookie.classList.add('cookie-orange'); 
+    if (durration > 3000) {
+      cookie.style.backgroundColor = "orange";
     }
-    if (durration > 6000){
-      cookie.className = "cookie-brown"
-      // cookie.classList.add('cookie-brown');
+    if (durration > 6000) {
+      cookie.style.backgroundColor = "brown";
     }
-    if (durration > 9000){
-      cookie.classList.add('cookie-black');
+    if (durration > 9000) {
+      cookie.style.backgroundColor = "black";
     }
     if (durration > 12000){
       cookie.remove();
@@ -144,15 +144,22 @@ bakeClick.addEventListener("click", function () {
     function takingOut () {
       console.log(cookie.classList.value);
 
-      if (cookie.className === "cookie-brown") {
-      // clearInterval(id);
-      // cookie.parentElement.removeChild(cookie);
-      // cookieOnTrayNumber--;
-      // numberOfCookieOnTray.textContent = cookieOnTrayNumber;
-      // fullOvenAlert.textContent = "";
-      // cookie.style.border = "2px solid black";
-      console.log("przycisk na ciasto")
-
+      if (cookie.style.backgroundColor === "brown") {
+      clearInterval(id);
+      cookie.parentElement.removeChild(cookie);
+      cookieOnTrayNumber--;
+      numberOfCookieOnTray.textContent = cookieOnTrayNumber;
+      fullOvenAlert.textContent = "";
+      console.log("przycisk na ciasto");
+      
+      bakedCookies++;
+      numberOfBakedCookies.textContent = bakedCookies;
+    } else {
+      clearInterval(id);
+      cookie.parentElement.removeChild(cookie);
+      cookieOnTrayNumber--;
+      numberOfCookieOnTray.textContent = cookieOnTrayNumber;
+      fullOvenAlert.textContent = "";
     }
   }
 }
