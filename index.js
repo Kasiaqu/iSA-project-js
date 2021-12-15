@@ -13,6 +13,7 @@ const fullOvenAlert = document.querySelector("#full-oven-alert");
 const oven = document.querySelector("#oven");
 const numberOfBakedCookies = document.querySelector("#number-of-baked-cookies");
 const earnedMoney = document.querySelector("#earned-money");
+const buyFlourButton = document.querySelector('#buy-flour');
 
 // Preparing application state
 let isForming = false;
@@ -22,15 +23,16 @@ let sphereNumber = 0;
 let cookieNumber = 0;
 let flourAmount = 100;
 let cookieOnTrayNumber = 0;
-let bakedCookies = 20;
+let bakedCookies = 0;
 let currentSale = 0;
-let totalEarnedMoney = 0;
+let totalEarnedMoney = 100;
 
 // Update screen
 function update() {
   const now = Date.now();
   const elapsedTime = now - lastUpdateTime;
   lastUpdateTime = now;
+
 
   if (isForming) {
     // Update distance only if acceleration is on
@@ -207,3 +209,17 @@ function setCookieSellingTimeout() {
 
 setCookieSellingTimeout();
 
+buyFlourButton.addEventListener("click", flourBuying);
+
+function flourBuying() {
+  if (totalEarnedMoney >= 50) {
+    flourAmount += 100;
+    flourBag.textContent = flourAmount;
+    totalEarnedMoney -= 50;
+    earnedMoney.textContent = totalEarnedMoney;
+    console.log(flourAmount);
+    console.log(flourBag);
+    
+    update()
+  }
+}
