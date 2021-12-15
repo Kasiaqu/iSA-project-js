@@ -12,7 +12,7 @@ const cookieAlert = document.querySelector('#cookie-alert')
 const fullOvenAlert = document.querySelector("#full-oven-alert")
 const oven = document.querySelector("#oven");
 const numberOfBakedCookies = document.querySelector("#number-of-baked-cookies");
-
+const numberSoldCookies = document.querySelector('#number-sold-cookies');
 
 // Preparing application state
 let isForming = false;
@@ -23,6 +23,7 @@ let cookieNumber = 0;
 let flourAmount = 100;
 let cookieOnTrayNumber = 0;
 let bakedCookies = 0;
+let soldCookies = 0;
 
 // Update screen
 function update() {
@@ -54,116 +55,117 @@ function update() {
 // Starting sceen updates
 update();
 
-function createDoughBall (){  
-const plate = document.createElement("div");
-plate.classList.add('plate');
-tray.append(plate);
+function createDoughBall() {
+  const plate = document.createElement("div");
+  plate.classList.add('plate');
+  tray.append(plate);
 
-const yellowBall = document.createElement("div");
-yellowBall.classList.add('yellow-dough');
-plate.append(yellowBall);
+  const yellowBall = document.createElement("div");
+  yellowBall.classList.add('yellow-dough');
+  plate.append(yellowBall);
 
-formingProgress = 0;
-sphereNumber++;
-numberOfSphere.textContent = sphereNumber;
-// flourBag.textContent = flourAmount -= 10;
+  formingProgress = 0;
+  sphereNumber++;
+  numberOfSphere.textContent = sphereNumber;
+  // flourBag.textContent = flourAmount -= 10;
 
-plate.addEventListener('click', doughClick);
+  plate.addEventListener('click', doughClick);
 
-let currentWidth = 50;
-let currentHeight = 50;
+  let currentWidth = 50;
+  let currentHeight = 50;
 
-function doughClick () {
-  
-  currentWidth -= 5;
-  yellowBall.style.width = currentWidth + "px";
-  currentHeight -= 5;
-  yellowBall.style.height = currentHeight + "px";
-  cookieNumber++;
-  numberOfCookie.textContent = cookieNumber;  
-  console.log("cookie Number" + cookieNumber);
-  cookieAlert.textContent = "";
-  if (currentWidth == 0) {
-    plate.remove();
-    sphereNumber--;
-    numberOfSphere.textContent = sphereNumber;
-    return;
-  }
-}}
-// Adding event listeners
-doughmakerButton.addEventListener("click", function () {
-  isForming = !isForming;
-  doughmakerButton.textContent = "Lep to ciacho ziom";  
-});
+  function doughClick() {
 
-bakeClick.addEventListener("click", function () {
-  if (cookieOnTrayNumber === 9 ) {
-    fullOvenAlert.textContent = "Piec jest pełen";
-    return;
-  }
-  if( cookieNumber > 0 && cookieOnTrayNumber < 9) { 
-  console.log("cookie Number" + cookieNumber); 
-  cookieOnTrayNumber++;
-  cookieNumber--;
-
-  numberOfCookie.textContent = cookieNumber;
-  
-  console.log("cookie On Tray Number" + cookieOnTrayNumber);
-  numberOfCookieOnTray.textContent = cookieOnTrayNumber; 
-  
-  
-  
-  function letsBake() {
-    const cookie = document.createElement("div");
-    cookie.classList.add('cookie');
-    oven.append(cookie);
-
-    const bakingStartTime = Date.now();
-    const id = setInterval(() => { 
-    let currentTime = Date.now();
-    let durration = currentTime - bakingStartTime 
-    if (durration > 3000) {
-      cookie.style.backgroundColor = "orange";
-    }
-    if (durration > 6000) {
-      cookie.style.backgroundColor = "brown";
-    }
-    if (durration > 9000) {
-      cookie.style.backgroundColor = "black";
-    }
-    if (durration > 12000){
-      cookie.remove();
-      clearInterval(id);
-      fullOvenAlert.textContent = "";
-      cookieOnTrayNumber--;
-      numberOfCookieOnTray.textContent = cookieOnTrayNumber;
-    }
-    }, 500)
-    cookie.addEventListener('click', takingOut);
-    
-    function takingOut () {
-      console.log(cookie.classList.value);
-
-      if (cookie.style.backgroundColor === "brown") {
-      clearInterval(id);
-      cookie.parentElement.removeChild(cookie);
-      cookieOnTrayNumber--;
-      numberOfCookieOnTray.textContent = cookieOnTrayNumber;
-      fullOvenAlert.textContent = "";
-      console.log("przycisk na ciasto");
-      
-      bakedCookies++;
-      numberOfBakedCookies.textContent = bakedCookies;
-    } else {
-      clearInterval(id);
-      cookie.parentElement.removeChild(cookie);
-      cookieOnTrayNumber--;
-      numberOfCookieOnTray.textContent = cookieOnTrayNumber;
-      fullOvenAlert.textContent = "";
+    currentWidth -= 5;
+    yellowBall.style.width = currentWidth + "px";
+    currentHeight -= 5;
+    yellowBall.style.height = currentHeight + "px";
+    cookieNumber++;
+    numberOfCookie.textContent = cookieNumber;
+    console.log("cookie Number" + cookieNumber);
+    cookieAlert.textContent = "";
+    if (currentWidth == 0) {
+      plate.remove();
+      sphereNumber--;
+      numberOfSphere.textContent = sphereNumber;
+      return;
     }
   }
 }
-  letsBake();
+// Adding event listeners
+doughmakerButton.addEventListener("click", function () {
+  isForming = !isForming;
+  doughmakerButton.textContent = "Lep to ciacho ziom";
+});
+
+bakeClick.addEventListener("click", function () {
+  if (cookieOnTrayNumber === 9) {
+    fullOvenAlert.textContent = "Piec jest pełen";
+    return;
+  }
+  if (cookieNumber > 0 && cookieOnTrayNumber < 9) {
+    console.log("cookie Number" + cookieNumber);
+    cookieOnTrayNumber++;
+    cookieNumber--;
+
+    numberOfCookie.textContent = cookieNumber;
+
+    console.log("cookie On Tray Number" + cookieOnTrayNumber);
+    numberOfCookieOnTray.textContent = cookieOnTrayNumber;
+
+
+
+    function letsBake() {
+      const cookie = document.createElement("div");
+      cookie.classList.add('cookie');
+      oven.append(cookie);
+
+      const bakingStartTime = Date.now();
+      const id = setInterval(() => {
+        let currentTime = Date.now();
+        let durration = currentTime - bakingStartTime
+        if (durration > 3000) {
+          cookie.style.backgroundColor = "orange";
+        }
+        if (durration > 6000) {
+          cookie.style.backgroundColor = "brown";
+        }
+        if (durration > 9000) {
+          cookie.style.backgroundColor = "black";
+        }
+        if (durration > 12000) {
+          cookie.remove();
+          clearInterval(id);
+          fullOvenAlert.textContent = "";
+          cookieOnTrayNumber--;
+          numberOfCookieOnTray.textContent = cookieOnTrayNumber;
+        }
+      }, 500)
+      cookie.addEventListener('click', takingOut);
+
+      function takingOut() {
+        console.log(cookie.classList.value);
+
+        if (cookie.style.backgroundColor === "brown") {
+          clearInterval(id);
+          cookie.parentElement.removeChild(cookie);
+          cookieOnTrayNumber--;
+          numberOfCookieOnTray.textContent = cookieOnTrayNumber;
+          fullOvenAlert.textContent = "";
+          console.log("przycisk na ciasto");
+
+          bakedCookies++;
+          numberOfBakedCookies.textContent = bakedCookies;
+        } else {
+          clearInterval(id);
+          cookie.parentElement.removeChild(cookie);
+          cookieOnTrayNumber--;
+          numberOfCookieOnTray.textContent = cookieOnTrayNumber;
+          fullOvenAlert.textContent = "";
+        }
+      }
+    }
+    letsBake();
 
   }
 
@@ -174,3 +176,34 @@ bakeClick.addEventListener("click", function () {
 
 })
 
+
+
+
+// let randomTime = 3000;
+
+  setInterval(increaseCookies, Math.floor(Math.random() * (6000 - 3000)) + 3000);
+  
+  function increaseCookies() {
+    console.log(Math.floor(Math.random() * (6000 - 3000)) + 3000);
+    // randomTime =  Math.floor(Math.random() * (6000 - 3000)) + 3000;
+    // console.log(randomTime)
+    if (numberOfBakedCookies > 0 ) {
+      
+    let randomAmount = Math.floor(Math.random() * (10 - 1)) + 1;
+    console.log(randomAmount);
+    bakedCookies -= randomAmount;
+    numberOfBakedCookies.textContent = bakedCookies;
+    
+  } 
+// else {
+// // //  numberOfBakedCookies.textContent = "za mało ciastek";
+//   }
+}
+
+
+
+
+// function sellCookies() {
+  
+// }
+// sellCookies();
